@@ -1,0 +1,55 @@
+version: '3'
+
+networks:
+        monitoring:
+                driver: bridge
+
+
+services:
+
+    grafana:
+        image: grafana/grafana
+        container_name: grafana
+        volumes:
+                - grafana:/var/lib/grafana
+        ports:
+            - "3000:3000"
+        restart: unless-stopped
+        networks:
+                - monitoring
+
+    prometheus:
+        image: prom/prometheus
+        container_name: prometheus
+        ports:
+            - "9090:9090"
+        volumes:
+            - prometheus:/prometheus
+            - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./config/prometheus/http_targets.json:/etc/prometheus/http_targets.json
+            - ./config/prometheus/icmp_targets.json:/etc/prometheus/icmp_targets.json
+        command:
+            - --config.file=/etc/prometheus/prometheus.yml
+        restart: unless-stopped
+        networks:
+                - monitoring
+
+    blackbox-exporter:
+        container_name: blackbox
+        image: danielofir/blackbox-exporter
+        ports:
+            - "9115:9115"
+        volumes:
+            - blackbox_exporter:/blackbox-exporter
+            - ./config/blackbox-exporter:/config  
+        command:
+            - --config.file=/config/blackbox.yml
+        restart: unless-stopped
+        networks:
+                - monitoring
+
+
+volumes:
+        grafana:
+        prometheus:
+        blackbox_exporter:

@@ -1,0 +1,11 @@
+[
+    {
+        "labels":{
+            "job": "blackbox-http"
+        },
+        "targets":[
+            "https://www.google.com",
+            "http://prometheus.io"
+        ]
+    }
+]

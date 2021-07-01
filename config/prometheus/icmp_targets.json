@@ -1,0 +1,11 @@
+[
+    {
+        "labels":{
+            "job": "blackbox-icmp"
+        },
+        "targets":[
+            "www.google.com",
+            "prometheus.io"
+        ]
+    }
+]
