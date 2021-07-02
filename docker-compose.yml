@@ -14,6 +14,8 @@ services:
                 - grafana:/var/lib/grafana
         ports:
             - "3000:3000"
+        environment:
+                - GF_SERVER_ROOT_URL=http://grafana.danielof.com/
         restart: unless-stopped
         networks:
                 - monitoring
@@ -29,7 +31,8 @@ services:
             - ./config/prometheus/http_targets.json:/etc/prometheus/http_targets.json
             - ./config/prometheus/icmp_targets.json:/etc/prometheus/icmp_targets.json
         command:
-            - --config.file=/etc/prometheus/prometheus.yml
+         - --config.file=/etc/prometheus/prometheus.yml
+         - --web.external-url=http://prometheus.danielof.com/
         restart: unless-stopped
         networks:
                 - monitoring
@@ -47,6 +50,17 @@ services:
         restart: unless-stopped
         networks:
                 - monitoring
+    
+    nginx-reverse-proxy:
+            container_name: nginx
+            image: nginx
+            ports:
+                    - "80:80"
+            volumes:
+                    - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+            restart: unless-stopped
+            networks:
+                    - monitoring
 
 
 volumes:
