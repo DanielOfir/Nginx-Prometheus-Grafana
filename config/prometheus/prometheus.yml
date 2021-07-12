@@ -1,8 +1,10 @@
 global:
+
     scrape_interval: 15s
     evaluation_interval: 15s
     external_labels:
       monitor: 'DanielO'
+
 scrape_configs:
 
 - job_name: 'blackbox-http'
@@ -18,8 +20,7 @@ scrape_configs:
   - source_labels: [__param_target]
     target_label: instance
   - target_label: __address__
-    #replacement: 192.168.1.213:9115
-    replacement: blackbox:9115 
+    replacement: blackbox-exporter:9115 
 
 - job_name: 'blackbox-icmp'
   metrics_path: /probe
@@ -34,14 +35,13 @@ scrape_configs:
   - source_labels: [__param_target]
     target_label: instance
   - target_label: __address__
-    #replacement: 192.168.1.213:9115 
     replacement: blackbox-exporter:9115
 
 - job_name: node_exporter
   static_configs:
           - targets: ['192.168.1.213:9100','192.168.1.131:9100','10.6.0.2:9100']
 
-- job_name: pihole_exporter
+- job_name: nginx_exporter
   static_configs:
-          - targets: ['192.168.1.213:9617']
+          - targets: ['192.168.1.213:9113']
  

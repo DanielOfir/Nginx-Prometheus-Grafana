@@ -5,7 +5,9 @@
         },
         "targets":[
             "www.google.com",
-            "prometheus.io"
+            "prometheus.io",
+            "grafana.danielof.com",
+            "prometheus.danielof.com"
         ]
     }
 ]

@@ -4,7 +4,6 @@ modules:
     timeout: 5s
     http:
       method: GET
-      # protocol: tcp4
       preferred_ip_protocol: "ip4"
   http_post_2xx:
     prober: http
